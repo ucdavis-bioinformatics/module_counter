@@ -1,0 +1,31 @@
+#%Module1.0#####################################################################
+
+set name "Anvio"
+set dir "anvio"
+set version "2.0.2"
+set os "x86_64-linux-ubuntu14.04"
+set note ""
+set tags ""
+set url ""
+
+module-whatis "This module loads $name version $version for $os. $note"
+
+if ![ is-loaded prodigal ] { module load prodigal }
+if ![ is-loaded hmmer ] { module load hmmer }
+
+set swroot "/software"
+prepend-path PATH            $swroot/$dir/$version/$os/bin
+prepend-path PATH            $swroot/$dir/$version/$os/sandbox
+prepend-path PYTHONPATH            $swroot/$dir/$version/$os
+prepend-path PYTHONPATH            $swroot/$dir/$version/$os/anvio
+prepend-path PYTHONPATH            $swroot/$dir/$version/$os/lib
+
+
+if { [ module-info mode load ] } {
+    puts stderr "Module $dir-$version-$os loaded. $note"
+}
+
+# code for getting module usage counts
+if { [ module-info mode load ] } {
+       system "echo -e \"$dir\t$version\t$::env(USER)\" | nc -w 0 modulecounter.genomecenter.ucdavis.edu 12345"
+}
