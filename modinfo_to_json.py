@@ -6,6 +6,7 @@ import json
 
 #modpath = '/software/modules/3.2.10/x86_64-linux-ubuntu14.04/Modules/3.2.10/modulefiles'
 modpath = '/software/modules/lssc0/lssc0-linux/modulefiles'
+outpath = '.'
 
 def pywalker(path):
     retlist=[]
@@ -41,6 +42,6 @@ if __name__ == '__main__':
 
             f.close()
 
-            f2 = open(sw+"__"+ver+".json","w")
+            f2 = open(outpath+"/"+sw+"__"+ver+".json","w")
             f2.write(json.dumps(json_dict))
             f2.close()
