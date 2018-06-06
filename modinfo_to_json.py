@@ -6,6 +6,7 @@ import json
 
 #modpath = '/software/modules/3.2.10/x86_64-linux-ubuntu14.04/Modules/3.2.10/modulefiles'
 modpath = '/software/modules/lssc0/lssc0-linux/modulefiles'
+modpath_static = '/software/modules/lssc0/lssc0-linux/modulefiles'
 outpath = '.'
 
 def pywalker(path):
