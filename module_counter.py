@@ -8,6 +8,8 @@ from threading import Thread
 from SocketServer import ThreadingMixIn
 from Queue import Queue
 from collections import defaultdict
+import glob
+import os.path
 
 # echo -e "bwa\t1.2.3" | nc -w 0 localhost 12345
 
@@ -43,7 +45,7 @@ class QueueThread(Thread):
             if ver in count[mod]:
                 count[mod][ver] += 1
             else:
-                count[mod][ver] = 1
+        cfs = [n for n in glob("counts.[0-9]*_[0-9]*.out") if os.path.isfile(n)]        count[mod][ver] = 1
 
  
 class ClientThread(Thread):
@@ -83,6 +85,16 @@ if len(sys.argv) == 2:
         line = line.rstrip('\n')
         data = line.split('\t')
         count[data[0]][data[1]] = data[2]
+
+else:
+    cfs = [n for n in glob.glob("counts.[0-9]*_[0-9]*.out") if os.path.isfile(n)]
+    if cfs:
+        cfs.sort()
+        f = open(cfs[-1],"r")
+        for line in f:
+            line = line.rstrip('\n')
+            data = line.split('\t')
+            count[data[0]][data[1]] = data[2]
 
 q = Queue()
 qthread = QueueThread(q,count)
