@@ -9,6 +9,7 @@ modpath = '/software/modules/3.2.10/x86_64-linux-ubuntu14.04/Modules/3.2.10/modu
 #modpath = '/software/modules/lssc0/lssc0-linux/modulefiles'
 modpath_static = '/software/modules/modulefiles_static'
 outpath = '.'
+countfiles_path = '/data/src/joshi/module_counter'
 
 def search_path(path):
     swlist = []
@@ -48,6 +49,12 @@ def search_path(path):
 
 
 if __name__ == '__main__':
+
+    # take only last 30 days
+    countfile_list = glob(countfiles_path+"/counts.*.out")
+    countfile_list.sort()
+    countfile_list = countfile_list[-30:-1]
+
     all_swlist = search_path(modpath) + search_path(modpath_static)
 
     f2 = open(outpath+"/all_software.json","w")
