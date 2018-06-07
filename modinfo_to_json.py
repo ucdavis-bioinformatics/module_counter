@@ -16,12 +16,14 @@ def search_path(path):
     moddirs.sort()
 
     print moddirs
-    
+
     for p in moddirs:
         
         modfiles = [x for x in glob(p+"/*") if os.path.isfile(x)]
         modfiles.sort()
         sw = os.path.basename(p)
+
+        print modfiles
 
         json_dict = {'note':'', 'tags':[], 'url':'', 'name':sw, 'versions':modfiles}
 
