@@ -66,16 +66,16 @@ if __name__ == '__main__':
             line = line.rstrip('\n')
             data = line.split('\t')
             sw = data[0]
-            cnt = data[2]
+            cnt = int(data[2])
             if sw in thisday:
                 thisday[sw] += cnt
-                print sw+":"+cnt
+                #print sw+":"+cnt
             else:
                 thisday[sw] = cnt
 
         for sw,cnt in thisday.iteritems():
             if sw in swcounts:
-                print "appending:"+sw+":"+thisday[sw]
+                #print "appending:"+sw+":"+thisday[sw]
                 swcounts[sw].append(cnt)
             else:
                 swcounts[sw]=[]
