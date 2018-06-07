@@ -45,7 +45,7 @@ class QueueThread(Thread):
             if ver in count[mod]:
                 count[mod][ver] += 1
             else:
-        cfs = [n for n in glob("counts.[0-9]*_[0-9]*.out") if os.path.isfile(n)]        count[mod][ver] = 1
+                count[mod][ver] = 1
 
  
 class ClientThread(Thread):

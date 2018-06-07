@@ -42,7 +42,6 @@ def search_path(path):
                 json_dict['url'] = m2.group(1)
 
             f.close()
-
             swlist.append(json_dict)
 
     return swlist
