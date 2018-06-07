@@ -21,7 +21,7 @@ def search_path(path):
         if modfiles:
             modfiles.sort()
             sw = os.path.basename(p)
-            json_dict = {'note':'', 'tags':[], 'url':'', 'name':sw, 'versions':[os.path.basename(x) for x in modfiles]}
+            json_dict = {'description':'', 'tags':[], 'url':'', 'name':sw, 'versions':[os.path.basename(x) for x in modfiles]}
 
             # get information from last file, i.e. latest version
             f = open(modfiles[-1],"r");
@@ -30,7 +30,7 @@ def search_path(path):
 
             m2 = re.search('set note "(.+?)"',file_string)
             if m2:
-                json_dict['note'] = m2.group(1)
+                json_dict['description'] = m2.group(1)
 
             m2 = re.search('set tags "(.+?)"',file_string)
             if m2:
