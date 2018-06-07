@@ -45,7 +45,7 @@ def search_path(path,swcounts):
 
             if sw in swcounts:
                 json_dict['counts'] = swcounts[sw]
-                
+
             swlist.append(json_dict)
 
     return swlist
@@ -81,5 +81,5 @@ if __name__ == '__main__':
     all_swlist = search_path(modpath,swcounts) + search_path(modpath_static,swcounts)
 
     f2 = open(outpath+"/all_software.json","w")
-    f2.write(json.dumps(all_swlist))
+    f2.write(json.dumps(all_swlist, indent=1))
     f2.close()
