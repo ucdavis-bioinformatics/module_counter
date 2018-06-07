@@ -14,6 +14,9 @@ def search_path(path):
     swlist = []
     moddirs = [x for x in glob(path+"/*") if os.path.isdir(x)]
     moddirs.sort()
+
+    print moddirs
+    
     for p in moddirs:
         
         modfiles = [x for x in glob(p+"/*") if os.path.isfile(x)]
