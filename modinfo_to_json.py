@@ -22,6 +22,8 @@ def search_path(path):
 
         json_dict = {'note':'', 'tags':[], 'url':'', 'name':sw, 'versions':modfiles}
 
+        print modfiles
+
         # get information from last file, i.e. latest version
         f = open(modfiles[-1],"r");
         file_string = f.read()
