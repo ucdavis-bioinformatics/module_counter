@@ -12,19 +12,15 @@ outpath = '.'
 
 def search_path(path):
     swlist = []
-    moddirs = [x for x in glob(path) if os.path.isdir(x)]
+    moddirs = [x for x in glob(path+"/*") if os.path.isdir(x)]
     moddirs.sort()
     for p in moddirs:
         
-        modfiles = glob(p+"/*")
-        modfiles = [x for x in modfiles if os.path.isfile(x)]
+        modfiles = [x for x in glob(p+"/*") if os.path.isfile(x)]
         modfiles.sort()
         sw = os.path.basename(p)
 
         json_dict = {'note':'', 'tags':[], 'url':'', 'name':sw, 'versions':modfiles}
-
-        print p
-        print modfiles
 
         # get information from last file, i.e. latest version
         f = open(modfiles[-1],"r");
