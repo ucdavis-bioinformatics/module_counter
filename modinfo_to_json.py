@@ -11,7 +11,7 @@ modpath_static = '/software/modules/modulefiles_static'
 outpath = '.'
 countfiles_path = '/data/src/joshi/module_counter'
 
-def search_path(path):
+def search_path(path,swcounts):
     swlist = []
     moddirs = [x for x in glob(path+"/*") if os.path.isdir(x)]
     moddirs.sort()
@@ -22,7 +22,7 @@ def search_path(path):
         if modfiles:
             modfiles.sort()
             sw = os.path.basename(p)
-            json_dict = {'description':'', 'tags':[], 'url':'', 'name':sw, 'versions':[os.path.basename(x) for x in modfiles]}
+            json_dict = {'description':'', 'tags':[], 'url':'', 'name':sw, 'versions':[os.path.basename(x) for x in modfiles], 'counts':[]}
 
             # get information from last file, i.e. latest version
             f = open(modfiles[-1],"r");
@@ -42,6 +42,10 @@ def search_path(path):
                 json_dict['url'] = m2.group(1)
 
             f.close()
+
+            if sw in swcounts:
+                json_dict['counts'] = swcounts[sw]
+                
             swlist.append(json_dict)
 
     return swlist
@@ -49,12 +53,32 @@ def search_path(path):
 
 if __name__ == '__main__':
 
-    # take only last 30 days
+    # take only last 31 days
     countfile_list = glob(countfiles_path+"/counts.*.out")
     countfile_list.sort()
-    countfile_list = countfile_list[-30:]
+    countfile_list = countfile_list[-31:]
 
-    all_swlist = search_path(modpath) + search_path(modpath_static)
+    swcounts = {}
+    for c in countfile_list:
+        f = open(c,"r")
+        thisday = {}
+        for line in f:
+            line = line.rstrip('\n')
+            data = line.split('\t')
+            sw = data[0]
+            cnt = data[2]
+            if sw in thisday:
+                thisday[sw] += cnt
+            else:
+                thisday[sw] = cnt
+
+        for sw,cnt in thisday.iteritems():
+            if sw in swcounts:
+                swcounts[sw].append(cnt)
+            else:
+                swcounts[sw]=[]
+
+    all_swlist = search_path(modpath,swcounts) + search_path(modpath_static,swcounts)
 
     f2 = open(outpath+"/all_software.json","w")
     f2.write(json.dumps(all_swlist))
