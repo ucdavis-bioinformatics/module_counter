@@ -53,7 +53,7 @@ if __name__ == '__main__':
     # take only last 30 days
     countfile_list = glob(countfiles_path+"/counts.*.out")
     countfile_list.sort()
-    countfile_list = countfile_list[-30:-1]
+    countfile_list = countfile_list[-30:]
 
     all_swlist = search_path(modpath) + search_path(modpath_static)
 
