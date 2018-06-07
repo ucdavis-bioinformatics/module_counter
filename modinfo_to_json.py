@@ -25,7 +25,7 @@ def search_path(path):
 
         #print modfiles
 
-        json_dict = {'note':'', 'tags':[], 'url':'', 'name':sw, 'versions':modfiles}
+        json_dict = {'note':'', 'tags':[], 'url':'', 'name':sw, 'versions':[os.path.basename(x) for x in modfiles]}
 
         # get information from last file, i.e. latest version
         if modfiles:
