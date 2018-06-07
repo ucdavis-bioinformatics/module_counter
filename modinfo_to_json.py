@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
         for sw,cnt in thisday.iteritems():
             if sw in swcounts:
-                print "appending:"+sw+":"+cnt
+                print "appending:"+sw+":"+thisday[sw]
                 swcounts[sw].append(cnt)
             else:
                 swcounts[sw]=[]
