@@ -3,46 +3,52 @@
 import os
 import re
 import json
+from glob import glob
 
 #modpath = '/software/modules/3.2.10/x86_64-linux-ubuntu14.04/Modules/3.2.10/modulefiles'
 modpath = '/software/modules/lssc0/lssc0-linux/modulefiles'
-modpath_static = '/software/modules/lssc0/lssc0-linux/modulefiles'
+modpath_static = '/software/modules/modulefiles_static'
 outpath = '.'
 
-def pywalker(path):
-    retlist=[]
-    for root, dirs, files in os.walk(path):
-        for file_ in files:
-            retlist.append(os.path.join(root, file_))
+def search_path(path):
+    swlist = []
+    moddirs = [x for x in glob(path) if os.path.isdir(x)]
+    moddirs.sort()
+    for p in moddirs:
+        
+        modfiles = [x for x in glob(p+"/*") if os.path.isfile(x)]
+        modfiles.sort()
+        sw = os.path.basename(p)
 
-    return retlist
- 
+        json_dict = {'note':'', 'tags':[], 'url':'', 'name':sw, 'versions':modfiles}
+
+        # get information from last file, i.e. latest version
+        f = open(modfiles[-1],"r");
+        file_string = f.read()
+        #print file_string
+
+        m2 = re.search('set note "(.+?)"',file_string)
+        if m2:
+            json_dict['note'] = m2.group(1)
+
+        m2 = re.search('set tags "(.+?)"',file_string)
+        if m2:
+            json_dict['tags'] = [x.lstrip() for x in m2.group(1).split(",")]
+
+        m2 = re.search('set url "(.+?)"',file_string)
+        if m2:
+            json_dict['url'] = m2.group(1)
+
+        f.close()
+
+        swlist.append(json_dict)
+
+    return swlist
+
+
 if __name__ == '__main__':
-    for p in pywalker(modpath):
-        m = re.search('^'+modpath+'/(.+?)/(.+?)$',p)
-        if m:
-            sw = m.group(1)
-            ver = m.group(2)
+    all_swlist = search_path(modpath) + search_path(modpath_static)
 
-            json_dict = {'note':'', 'tags':[], 'url':''}
-            f = open(p,"r");
-            file_string = f.read()
-            #print file_string
-
-            m2 = re.search('set note "(.+?)"',file_string)
-            if m2:
-                json_dict['note'] = m2.group(1)
-
-            m2 = re.search('set tags "(.+?)"',file_string)
-            if m2:
-                json_dict['tags'] = [x.lstrip() for x in m2.group(1).split(",")]
-
-            m2 = re.search('set url "(.+?)"',file_string)
-            if m2:
-                json_dict['url'] = m2.group(1)
-
-            f.close()
-
-            f2 = open(outpath+"/"+sw+"__"+ver+".json","w")
-            f2.write(json.dumps(json_dict))
-            f2.close()
+    f2 = open(outpath+"/all_software.json","w")
+    f2.write(json.dumps(all_swlist))
+    f2.close()
