@@ -69,6 +69,7 @@ if __name__ == '__main__':
             cnt = data[2]
             if sw in thisday:
                 thisday[sw] += cnt
+                print cnt
             else:
                 thisday[sw] = cnt
 
