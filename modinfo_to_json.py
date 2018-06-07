@@ -15,7 +15,7 @@ def search_path(path):
     moddirs = [x for x in glob(path+"/*") if os.path.isdir(x)]
     moddirs.sort()
 
-    print moddirs
+    #print moddirs
 
     for p in moddirs:
         
@@ -23,30 +23,31 @@ def search_path(path):
         modfiles.sort()
         sw = os.path.basename(p)
 
-        print modfiles
+        #print modfiles
 
         json_dict = {'note':'', 'tags':[], 'url':'', 'name':sw, 'versions':modfiles}
 
         # get information from last file, i.e. latest version
-        f = open(modfiles[-1],"r");
-        file_string = f.read()
-        #print file_string
+        if modfiles:
+            f = open(modfiles[-1],"r");
+            file_string = f.read()
+            #print file_string
 
-        m2 = re.search('set note "(.+?)"',file_string)
-        if m2:
-            json_dict['note'] = m2.group(1)
+            m2 = re.search('set note "(.+?)"',file_string)
+            if m2:
+                json_dict['note'] = m2.group(1)
 
-        m2 = re.search('set tags "(.+?)"',file_string)
-        if m2:
-            json_dict['tags'] = [x.lstrip() for x in m2.group(1).split(",")]
+            m2 = re.search('set tags "(.+?)"',file_string)
+            if m2:
+                json_dict['tags'] = [x.lstrip() for x in m2.group(1).split(",")]
 
-        m2 = re.search('set url "(.+?)"',file_string)
-        if m2:
-            json_dict['url'] = m2.group(1)
+            m2 = re.search('set url "(.+?)"',file_string)
+            if m2:
+                json_dict['url'] = m2.group(1)
 
-        f.close()
+            f.close()
 
-        swlist.append(json_dict)
+            swlist.append(json_dict)
 
     return swlist
 
