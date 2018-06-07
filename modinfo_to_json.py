@@ -5,8 +5,8 @@ import re
 import json
 from glob import glob
 
-#modpath = '/software/modules/3.2.10/x86_64-linux-ubuntu14.04/Modules/3.2.10/modulefiles'
-modpath = '/software/modules/lssc0/lssc0-linux/modulefiles'
+modpath = '/software/modules/3.2.10/x86_64-linux-ubuntu14.04/Modules/3.2.10/modulefiles'
+#modpath = '/software/modules/lssc0/lssc0-linux/modulefiles'
 modpath_static = '/software/modules/modulefiles_static'
 outpath = '.'
 
