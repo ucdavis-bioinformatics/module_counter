@@ -16,7 +16,8 @@ def search_path(path):
     moddirs.sort()
     for p in moddirs:
         
-        modfiles = [x for x in glob(p+"/*") if os.path.isfile(x)]
+        modfiles = glob(p+"/*")
+        modfiles = [x for x in modfiles if os.path.isfile(x)]
         modfiles.sort()
         sw = os.path.basename(p)
 
