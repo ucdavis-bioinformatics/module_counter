@@ -4,9 +4,10 @@ import os
 import re
 import json
 from glob import glob
+import sys
 
-modpath = '/software/modules/3.2.10/x86_64-linux-ubuntu14.04/Modules/3.2.10/modulefiles'
-#modpath = '/software/modules/lssc0/lssc0-linux/modulefiles'
+#modpath = '/software/modules/3.2.10/x86_64-linux-ubuntu14.04/Modules/3.2.10/modulefiles'
+modpath = '/software/modules/lssc0/lssc0-linux/modulefiles'
 modpath_static = '/software/modules/modulefiles_static'
 outpath = '.'
 countfiles_path = '/data/src/joshi/module_counter'
@@ -57,6 +58,9 @@ def search_path(path,swcounts):
 
 
 if __name__ == '__main__':
+
+    if len(sys.argv) == 2:
+        modpath = sys.argv[1]
 
     # take only last 31 days
     countfile_list = glob(countfiles_path+"/counts.*.out")
