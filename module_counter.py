@@ -11,6 +11,8 @@ from collections import defaultdict
 import glob
 import os.path
 
+countfiles_path = "."
+
 # echo -e "bwa\t1.2.3" | nc -w 0 localhost 12345
 
 class CountThread(Thread):
@@ -25,7 +27,7 @@ class CountThread(Thread):
             #print "Writing counts file...\n"
             count_copy = copy.deepcopy(self.count)
             timestr = time.strftime("%Y%m%d_%H%M%S")
-            count_file = open("counts."+timestr+".out","w")
+            count_file = open(countfiles_path+"/counts."+timestr+".out","w")
             for mod in count_copy:
                 for ver,cnt in count_copy[mod].iteritems():
                     count_file.write(mod+"\t"+ver+"\t"+str(cnt)+"\n")
