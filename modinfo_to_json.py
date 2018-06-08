@@ -43,8 +43,13 @@ def search_path(path,swcounts):
 
             f.close()
 
+            # counts are absolute, so to get daily counts we must subtract
             if sw in swcounts:
-                json_dict['counts'] = swcounts[sw]
+                daycounts=[]
+                for i,c in enumerate(swcounts[sw]):
+                    if i!=0:
+                        daycounts.append(swcounts[sw][i] - swcounts[sw][i-1])
+                json_dict['counts'] = daycounts
 
             swlist.append(json_dict)
 
