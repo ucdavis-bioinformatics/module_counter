@@ -5,6 +5,7 @@ import re
 import json
 from glob import glob
 import sys
+import time
 
 #modpath = '/software/modules/3.2.10/x86_64-linux-ubuntu14.04/Modules/3.2.10/modulefiles'
 modpath = '/software/modules/lssc0/lssc0-linux/modulefiles'
@@ -91,6 +92,11 @@ if __name__ == '__main__':
 
     all_swlist = search_path(modpath,swcounts) + search_path(modpath_static,swcounts)
 
-    f2 = open(outpath+"/all_software.json","w")
+    timestr = time.strftime("%Y%m%d_%H%M%S")
+    f2 = open(outpath+"/"+timestr+".all_software.json","w")
     f2.write(json.dumps(all_swlist, indent=1))
     f2.close()
+
+    if os.path.isfile(outpath+"/current.all_software.json"):
+        os.remove(outpath+"/current.all_software.json")
+    os.symlink(outpath+"/"+timestr+".all_software.json", outpath+"/current.all_software.json")
