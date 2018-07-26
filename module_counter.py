@@ -43,7 +43,7 @@ class QueueThread(Thread):
         while True:
             modstr = q.get()
             #print modstr
-            (mod,ver,userstr) = modstr.split('\t')
+            (mod,ver,userstr) = modstr.split(' ')
             if ver in count[mod]:
                 count[mod][ver] += 1
             else:
@@ -86,7 +86,7 @@ if len(sys.argv) == 2:
     for line in f:
         line = line.rstrip('\n')
         data = line.split('\t')
-        count[data[0]][data[1]] = data[2]
+        count[data[0]][data[1]] = int(data[2])
 
 else:
     cfs = [n for n in glob.glob("counts.[0-9]*_[0-9]*.out") if os.path.isfile(n)]
@@ -96,12 +96,14 @@ else:
         for line in f:
             line = line.rstrip('\n')
             data = line.split('\t')
-            count[data[0]][data[1]] = data[2]
+            count[data[0]][data[1]] = int(data[2])
 
 q = Queue()
 qthread = QueueThread(q,count)
+qthread.daemon = True
 qthread.start()
 countthread = CountThread(count)
+countthread.daemon = True
 countthread.start()
  
 while True:
@@ -109,6 +111,7 @@ while True:
     #print "Waiting for incoming connections..."
     (conn, (ip,port)) = tcpsock.accept()
     newthread = ClientThread(ip,port,q)
+    newthread.daemon = True
     newthread.start()
     threads.append(newthread)
  
