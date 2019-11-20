@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 import threading
 import sys
 import time
@@ -25,14 +25,19 @@ def send_count(sw_name,sw_version,user):
 
     client.write_points(json_body)
     #time.sleep(10)
-    with open('/data/joshi/somefile.txt', 'w') as the_file:
-        the_file.write('Hello\n')
+    #with open('/data/joshi/somefile.txt', 'w') as the_file:
+    #    the_file.write('Hello\n')
 
 
 if __name__ == '__main__':
-    t = threading.Thread(target=send_count, args=(sys.argv[1],sys.argv[2],sys.argv[3]))
+    #print(sys.argv[1])
+    #print(sys.argv[2])
+    #print(sys.argv[3])
+    #t = threading.Thread(target=send_count, args=(sys.argv[1],sys.argv[2],sys.argv[3]))
+    data = sys.argv[1].split(" ")
+    t = threading.Thread(target=send_count, args=(data[0],data[1],data[2]))
     t.daemon = True
     t.start()
     t.join()
-    print("here")
+    #print("here")
     os._exit(0)
