@@ -10,4 +10,4 @@ points = list(rs.get_points(measurement='module_counts'))
 #print(format(rs))
 
 counts = Counter((tok['sw_name'],tok['sw_version']) for tok in points)
-print(counts)
+print(sorted(counts,key=lambda x: x[0][0].lower()))
