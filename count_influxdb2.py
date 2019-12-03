@@ -1,6 +1,16 @@
 #!/usr/bin/python3
-import threading
+
 import sys
+#print(sys.path)
+# hack for anaconda issues when running script
+try:
+    sys.path.remove('/software/anaconda2/4.5.12/lssc0-linux/lib/python2.7/site-packages')
+    sys.path.remove('/software/anaconda3/4.5.12/lssc0-linux/lib/python3.7/site-packages')
+except ValueError:
+    pass
+
+
+import threading
 import time
 import os
 
