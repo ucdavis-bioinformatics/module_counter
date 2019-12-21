@@ -6,6 +6,7 @@ import sys
 try:
     sys.path.remove('/software/anaconda2/4.5.12/lssc0-linux/lib/python2.7/site-packages')
     sys.path.remove('/software/anaconda3/4.5.12/lssc0-linux/lib/python3.7/site-packages')
+    sys.path.remove('/software/anaconda3/4.5.12/lssc0-linux/lib/python3.6/site-packages')
 except ValueError:
     pass
 
