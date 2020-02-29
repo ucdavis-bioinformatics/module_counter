@@ -1,0 +1,29 @@
+#%Module1.0#####################################################################
+
+set name "Anvio"
+set dir "anvio"
+set version "2.0.2"
+set os "lssc0-linux"
+set note ""
+set tags ""
+set url ""
+
+module-whatis "This module loads $name version $version for $os. $note"
+
+if ![ is-loaded anaconda3 ] { module load anaconda3 }
+if ![ is-loaded hmmer ] { module load hmmer }
+
+set swroot "/software"
+prepend-path PATH $swroot/$dir/$version/$os/bin
+prepend-path PYTHONPATH $swroot/$dir/$version/$os/lib/python3.6/site-packages
+prepend-path MANPATH            ":$swroot/$dir/$version/$os/share"
+
+
+if { [ module-info mode load ] } {
+    puts stderr "Module $dir-$version-$os loaded. $note"
+}
+
+# code for getting module usage counts
+if { [ module-info mode load ] } {
+    system /software/modules/lssc0/lssc0-linux/bin/module_counter/count_influxdb2.py $dir $version $::env(USER)
+}

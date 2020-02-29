@@ -1,0 +1,43 @@
+#%Module1.0#####################################################################
+
+set name "Roary"
+set dir "roary"
+set version "3.13.0"
+set os "lssc0-linux"
+set note ""
+set tags ""
+set url ""
+
+module-whatis "This module loads $name version $version for $os. $note"
+
+if ![ is-loaded anaconda3 ] { module load anaconda3 }
+
+set swroot "/software"
+
+if { [ module-info mode load ] } {
+    puts stderr "Module $dir-$version-$os loaded. $note"
+    puts stderr "
+***NOTE: To activate the $dir $version python virtualenv (in order to actually be able to run $dir $version) you must run the following command:
+
+source activate $dir-$version
+
+You should see your prompt change when the activation is successful.
+"
+
+    #system "source activate $swroot/$dir/$version/$os"
+}
+
+if { [ module-info mode unload ] } {
+    #system "source deactivate"
+    puts stderr "
+***NOTE: To deactivate the $dir $version python virtualenv, run this command:
+
+conda deactivate
+"
+
+}
+
+# code for getting module usage counts
+if { [ module-info mode load ] } {
+system /software/modules/lssc0/lssc0-linux/bin/module_counter/count_influxdb2.py $dir $version $::env(USER)
+}
